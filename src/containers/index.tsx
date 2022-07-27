@@ -10,6 +10,7 @@ import AnimatedTextContent from "../components/AnimatedTextContent";
 const Container = () => {
   const [computerBet, setComputerBet] = useState<Position | null>(null);
   const [winnerBet, setWinnerBet] = useState<Position | null>(null);
+  const [currentPosition, setCurrentPosition] = useState<Position | null>(null);
   const [winnerType, setWinnerType] = useState<PlayerType | null>(null);
   const [showWinner, setShowWinner] = useState(false);
   const [returnedBalance, setReturnedBalance] = useState(0);
@@ -59,21 +60,23 @@ const Container = () => {
     return count > 1;
   };
 
-  const handleUserWin = (type: Position, multiplier: number) => {
-    setBalance((balance: number) => (balance += bet[type] * multiplier));
-    setReturnedBalance(bet[type] * multiplier);
+  const handleUserWin = (position: Position, multiplier: number) => {
+    setBalance((balance: number) => (balance += bet[position] * multiplier));
+    setReturnedBalance(bet[position] * multiplier);
     setWinCount((count) => (count += 1));
-    setWinnerBet(type);
+    setWinnerBet(position);
     setWinnerType(PlayerType.USER);
+    setCurrentPosition(position);
   };
 
-  const handleTie = () => {
-    //tie logic can be added if needed
+  const handleTie = (position: Position) => {
+    setCurrentPosition(position);
   };
 
-  const handleComputerWin = (position: Position) => {
+  const handleComputerWin = (position: Position, userPosition: Position) => {
     setWinnerBet(position);
     setWinnerType(PlayerType.COMPUTER);
+    setCurrentPosition(userPosition);
   };
 
   const handleGameOver = useCallback(() => {
@@ -95,7 +98,7 @@ const Container = () => {
           if (bet.SCISSORS > 0) {
             handleUserWin(Position.SCISSORS, 3);
           } else {
-            handleTie();
+            handleComputerWin(Position.PAPER, Position.ROCK);
           }
 
           break;
@@ -103,7 +106,7 @@ const Container = () => {
           if (bet.PAPER > 0) {
             handleUserWin(Position.PAPER, 3);
           } else {
-            handleTie();
+            handleComputerWin(Position.ROCK, Position.SCISSORS);
           }
 
           break;
@@ -111,7 +114,7 @@ const Container = () => {
           if (bet.ROCK > 0) {
             handleUserWin(Position.ROCK, 3);
           } else {
-            handleTie();
+            handleComputerWin(Position.SCISSORS, Position.PAPER);
           }
 
           break;
@@ -124,27 +127,27 @@ const Container = () => {
           if (randomBet === Position.ROCK) {
             handleUserWin(Position.PAPER, 14);
           } else if (randomBet === Position.SCISSORS) {
-            handleComputerWin(Position.SCISSORS);
+            handleComputerWin(Position.SCISSORS, userPosition);
           } else {
-            handleTie();
+            handleTie(userPosition);
           }
           break;
         case Position.ROCK:
           if (randomBet === Position.SCISSORS) {
             handleUserWin(Position.ROCK, 14);
           } else if (randomBet === Position.PAPER) {
-            handleComputerWin(Position.PAPER);
+            handleComputerWin(Position.PAPER, userPosition);
           } else {
-            handleTie();
+            handleTie(userPosition);
           }
           break;
         case Position.SCISSORS:
           if (randomBet === Position.PAPER) {
             handleUserWin(Position.SCISSORS, 14);
           } else if (randomBet === Position.ROCK) {
-            handleComputerWin(Position.ROCK);
+            handleComputerWin(Position.ROCK, userPosition);
           } else {
-            handleTie();
+            handleTie(userPosition);
           }
           break;
         default:
@@ -173,11 +176,7 @@ const Container = () => {
             <h1>{computerBet}</h1>
             <span>VS</span>
             <div>
-              {Object.keys(bet)
-                .filter((i: string) => bet[i as Position] > 0)
-                .map((i) => (
-                  <h1 key={i}>{i}</h1>
-                ))}
+              <h1>{currentPosition}</h1>
             </div>
           </motion.div>
         )}
@@ -198,29 +197,27 @@ const Container = () => {
             >
               {!winnerType ? "TIE" : `${winnerBet} WON`}
             </AnimatedTextContent>
-            {winnerType!! && (
-              <AnimatedTextContent
-                onAnimationComplete={() => {
-                  handleGameOver();
-                }}
-                customKey="winner-title"
-                style={{
-                  color: !winnerType
-                    ? "white"
-                    : winnerType === PlayerType.USER
-                    ? "#27ae60"
-                    : "#e74c3c",
-                }}
-              >
-                {winnerType === PlayerType.USER ? (
-                  <span className="win-title">
-                    YOU WIN <span>{returnedBalance.toFixed(2)}</span>
-                  </span>
-                ) : (
-                  <span className="lost-title">YOU LOST</span>
-                )}
-              </AnimatedTextContent>
-            )}
+            <AnimatedTextContent
+              onAnimationComplete={() => {
+                handleGameOver();
+              }}
+              customKey="winner-title"
+              style={{
+                color: !winnerType
+                  ? "white"
+                  : winnerType === PlayerType.USER
+                  ? "#27ae60"
+                  : "#e74c3c",
+              }}
+            >
+              {winnerType === PlayerType.USER ? (
+                <span className="win-title">
+                  YOU WIN <span>{returnedBalance.toFixed(2)}</span>
+                </span>
+              ) : (
+                <span className="lost-title">YOU LOST</span>
+              )}
+            </AnimatedTextContent>
           </div>
         )}
       </div>
