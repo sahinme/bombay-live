@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+* {
+  // reset css
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$text-orange: #b18348;
+$rock-blue: #1055d6;
+$paper-green: #27ae60;
+$scissors-red: #e74c3c;
+
+body {
+  height: 100vh;
+  background: -webkit-linear-gradient(to bottom, #574a43, #1e130c);
+  background: linear-gradient(to bottom, #574a43, #1e130c);
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    gap: 3rem;
+    height: 36px;
+    p {
+      color: $text-orange;
+      font-weight: 500;
+      font-size: 1rem;
+      span {
+        color: #fff;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+    }
+  }
+  .container {
+    height: calc(100vh - 36px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    padding: 3rem 0;
+    &-pick-text {
+      text-transform: uppercase;
+      color: $text-orange;
+      font-weight: 700;
+    }
+    &-buttons {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    &-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 5rem;
+      gap: 1rem;
+    }
+  }
+}
+
+.pick-button {
+  background-color: #000;
+  color: $text-orange;
+  font-weight: 500;
+  border: 2px solid $text-orange;
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  border-radius: 40px;
+  min-width: 140px;
+  cursor: pointer;
+  &:hover {
+    background-color: $text-orange;
+    color: #000;
+    border-color: $text-orange;
+  }
+  &:disabled {
+    background-color: #000;
+    color: rgba($text-orange, 0.3);
+    border-color: rgba($text-orange, 0.3);
+  }
+  transition: all 0.2s ease-in-out;
+}
+
+.betButton {
+  min-width: 140px;
+  min-height: 100px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  outline: 1px solid;
+
+  .indicator {
+    background-color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 5px solid $rock-blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    padding: 20px;
+  }
+
+  // neon-effect with border
+  &.rock {
+    background-color: darken($rock-blue, 30);
+    color: $rock-blue;
+    outline-color: $rock-blue;
+    &:hover {
+      background-color: $rock-blue;
+    }
+  }
+  &.paper {
+    background-color: darken($paper-green, 30);
+    color: $paper-green;
+    outline-color: $paper-green;
+    &:hover {
+      background-color: $paper-green;
+    }
+  }
+  &.scissors {
+    background-color: darken($scissors-red, 40);
+    color: $scissors-red;
+    outline-color: $scissors-red;
+    &:hover {
+      background-color: $scissors-red;
+    }
+  }
+  &:hover {
+    color: #000;
+  }
+  &.won {
+    outline-width: 3px;
+  }
+  transition: all 0.2s ease-in-out;
+}
+
+.win-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+  width: 100%;
+  .win-title {
+    color: $text-orange;
+    text-align: center;
+    font-size: 2rem;
+    & span {
+      font-size: 2rem;
+    }
+  }
+
+  .win-title span {
+    color: white;
+    text-align: center;
+  }
+  .lost-title {
+    color: #000;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .result-title {
+    text-align: center;
+    gap: 10px;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .versus-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      span {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        width: 100%;
+        &:nth-child(2) {
+          margin-left: 1rem;
+        }
+      }
+    }
+    span {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-orange;
+    }
+  }
+}
+
+.backdrop {
+  &.active {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background: #00000085;
+    backdrop-filter: blur(5px);
+  }
+
+  .content {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 50%;
+  }
+}
+
+.game-over {
+  color: #000;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}

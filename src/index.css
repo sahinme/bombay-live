@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(to bottom, #574a43, #1e130c);
+}
+body .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  gap: 3rem;
+  height: 36px;
+}
+body .header p {
+  color: #b18348;
+  font-weight: 500;
+  font-size: 1rem;
+}
+body .header p span {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+}
+body .container {
+  height: calc(100vh - 36px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding: 3rem 0;
+}
+body .container-pick-text {
+  text-transform: uppercase;
+  color: #b18348;
+  font-weight: 700;
+}
+body .container-buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+body .container-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 5rem;
+  gap: 1rem;
+}
+
+.pick-button {
+  background-color: #000;
+  color: #b18348;
+  font-weight: 500;
+  border: 2px solid #b18348;
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  border-radius: 40px;
+  min-width: 140px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.pick-button:hover {
+  background-color: #b18348;
+  color: #000;
+  border-color: #b18348;
+}
+.pick-button:disabled {
+  background-color: #000;
+  color: rgba(177, 131, 72, 0.3);
+  border-color: rgba(177, 131, 72, 0.3);
+}
+
+.betButton {
+  min-width: 140px;
+  min-height: 100px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  outline: 1px solid;
+  transition: all 0.2s ease-in-out;
+}
+.betButton .indicator {
+  background-color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 5px solid #1055d6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  padding: 20px;
+}
+.betButton.rock {
+  background-color: #051c48;
+  color: #1055d6;
+  outline-color: #1055d6;
+}
+.betButton.rock:hover {
+  background-color: #1055d6;
+}
+.betButton.paper {
+  background-color: #0b311b;
+  color: #27ae60;
+  outline-color: #27ae60;
+}
+.betButton.paper:hover {
+  background-color: #27ae60;
+}
+.betButton.scissors {
+  background-color: #4d100a;
+  color: #e74c3c;
+  outline-color: #e74c3c;
+}
+.betButton.scissors:hover {
+  background-color: #e74c3c;
+}
+.betButton:hover {
+  color: #000;
+}
+.betButton.won {
+  outline-width: 3px;
+}
+
+.win-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
+  width: 100%;
+}
+.win-section .win-title {
+  color: #b18348;
+  text-align: center;
+  font-size: 2rem;
+}
+.win-section .win-title span {
+  font-size: 2rem;
+}
+.win-section .win-title span {
+  color: white;
+  text-align: center;
+}
+.win-section .lost-title {
+  color: #000;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+.win-section .result-title {
+  text-align: center;
+  gap: 10px;
+  font-size: 3rem;
+  font-weight: 700;
+}
+.win-section .versus-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
+}
+.win-section .versus-title h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+.win-section .versus-title h1 span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  width: 100%;
+}
+.win-section .versus-title h1 span:nth-child(2) {
+  margin-left: 1rem;
+}
+.win-section .versus-title span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #b18348;
+}
+
+.backdrop.active {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5215686275);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+}
+.backdrop .content {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 50%;
+}
+
+.game-over {
+  color: #000;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}/*# sourceMappingURL=index.css.map */
