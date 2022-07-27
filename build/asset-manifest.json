@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/bombay-live/static/css/main.b1c28a14.css",
-    "main.js": "/bombay-live/static/js/main.46325e0d.js",
+    "main.css": "/bombay-live/static/css/main.73d8ca11.css",
+    "main.js": "/bombay-live/static/js/main.47fa34fb.js",
     "static/js/787.6486c9ea.chunk.js": "/bombay-live/static/js/787.6486c9ea.chunk.js",
     "index.html": "/bombay-live/index.html",
-    "main.b1c28a14.css.map": "/bombay-live/static/css/main.b1c28a14.css.map",
-    "main.46325e0d.js.map": "/bombay-live/static/js/main.46325e0d.js.map",
+    "main.73d8ca11.css.map": "/bombay-live/static/css/main.73d8ca11.css.map",
+    "main.47fa34fb.js.map": "/bombay-live/static/js/main.47fa34fb.js.map",
     "787.6486c9ea.chunk.js.map": "/bombay-live/static/js/787.6486c9ea.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b1c28a14.css",
-    "static/js/main.46325e0d.js"
+    "static/css/main.73d8ca11.css",
+    "static/js/main.47fa34fb.js"
   ]
 }
