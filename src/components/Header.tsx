@@ -8,13 +8,13 @@ const Header = () => {
   return (
     <div className="header">
       <p>
-        BALANCE: <span>{balance}</span>{" "}
+        BALANCE: <span>{balance}</span>
       </p>
       <p>
-        BET: <span>{totalBet}</span>{" "}
+        BET: <span>{totalBet}</span>
       </p>
       <p>
-        WIN: <span>{winCount}</span>{" "}
+        WIN: <span>{winCount}</span>
       </p>
     </div>
   );

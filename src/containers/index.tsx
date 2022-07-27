@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import BetButton from "../components/BetButton";
 import Button from "../components/Button";
 import { defaultBetState, useAppContext } from "../contexts/AppContext";
-import { PlayerType, Position } from "../enums/Position";
+import { Position } from "../enums/Position";
+import { PlayerType } from "../enums/PlayerType";
 import { getRandomKeyFromArray } from "../utils";
 import AnimatedTextContent from "../components/AnimatedTextContent";
 
@@ -55,6 +56,7 @@ const Container = () => {
 
   const handleBet = useCallback(
     (position: Position) => {
+      // prevent user bet 3 position
       if (isMultipleChoice() && bet[position] === 0) {
         return;
       }
