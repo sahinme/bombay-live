@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import BetButton from "../components/BetButton";
 import Button from "../components/Button";
 import { defaultBetState, useAppContext } from "../contexts/AppContext";
 import { PlayerType, Position } from "../enums/Position";
 import { getRandomKeyFromArray } from "../utils";
-import { motion } from "framer-motion";
 import AnimatedTextContent from "../components/AnimatedTextContent";
 
 const Container = () => {
@@ -78,7 +78,7 @@ const Container = () => {
 
   const handleGameOver = useCallback(() => {
     timerRef.current = setTimeout(() => {
-      if (balance === 0) setGameOver(true);
+      if (balance < 500) setGameOver(true);
     }, 500);
   }, [balance]);
 
@@ -165,7 +165,7 @@ const Container = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 2 }}
+            transition={{ duration: 3 }}
             onAnimationComplete={() => {
               setShowWinner(true);
             }}
@@ -233,21 +233,21 @@ const Container = () => {
           <BetButton
             active={winnerBet === Position.ROCK}
             balance={bet.ROCK}
-            disabled={balance === 0}
+            disabled={balance === 0 || !!computerBet}
             type={Position.ROCK}
             onClick={() => handleBet(Position.ROCK)}
           />
           <BetButton
             active={winnerBet === Position.PAPER}
             balance={bet.PAPER}
-            disabled={balance === 0}
+            disabled={balance === 0 || !!computerBet}
             type={Position.PAPER}
             onClick={() => handleBet(Position.PAPER)}
           />
           <BetButton
             active={winnerBet === Position.SCISSORS}
             balance={bet.SCISSORS}
-            disabled={balance === 0}
+            disabled={balance === 0 || !!computerBet}
             type={Position.SCISSORS}
             onClick={() => handleBet(Position.SCISSORS)}
           />

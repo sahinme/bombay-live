@@ -16,7 +16,7 @@ const Backdrop = () => {
               marginBottom: "3rem",
             }}
           >
-            GAME OVER
+            You have no balance left
           </AnimatedTextContent>
           <Button onClick={() => window.location.reload()}>PLAY AGAIN</Button>
         </div>
