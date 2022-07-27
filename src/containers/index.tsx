@@ -14,22 +14,44 @@ const Container = () => {
   const [winnerType, setWinnerType] = useState<PlayerType | null>(null);
   const [showWinner, setShowWinner] = useState(false);
   const [returnedBalance, setReturnedBalance] = useState(0);
+  const [isClearButtonActive, setIsClearButtonActive] = useState(false);
 
-  const timerRef = useRef<string | number | NodeJS.Timeout | undefined>(0);
+  const timerRefs = useRef<Array<string | number | NodeJS.Timeout | undefined>>(
+    []
+  );
 
   useEffect(() => {
-    return () => clearTimeout(timerRef.current);
+    return () =>
+      timerRefs.current.forEach((id) => {
+        clearTimeout(id);
+      });
   }, []);
 
   const {
-    setBalance,
     balance,
-    setWinCount,
     bet,
+    gameOver,
+    setBalance,
+    setWinCount,
     setBet,
     setGameOver,
-    gameOver,
   } = useAppContext();
+
+  const handleRandomBet = () => {
+    const randomBet = getRandomKeyFromArray(
+      Object.values(Position)
+    ) as Position;
+    setComputerBet(randomBet);
+    return randomBet;
+  };
+
+  const isMultipleChoice = useCallback(() => {
+    let count = 0;
+    Object.values(bet).map((i: number) => {
+      if (i > 0) count += 1;
+    });
+    return count > 1;
+  }, [bet]);
 
   const handleBet = useCallback(
     (position: Position) => {
@@ -41,32 +63,19 @@ const Container = () => {
       setBet(newBet);
       setBalance((balance: number) => (balance -= 500));
     },
-    [balance, bet]
+    [bet, isMultipleChoice, setBalance, setBet]
   );
 
-  const handleRandomBet = () => {
-    const randomBet = getRandomKeyFromArray(
-      Object.values(Position)
-    ) as Position;
-    setComputerBet(randomBet);
-    return randomBet;
-  };
-
-  const isMultipleChoice = () => {
-    let count = 0;
-    Object.values(bet).map((i: number) => {
-      if (i > 0) count += 1;
-    });
-    return count > 1;
-  };
-
   const handleUserWin = (position: Position, multiplier: number) => {
-    setBalance((balance: number) => (balance += bet[position] * multiplier));
-    setReturnedBalance(bet[position] * multiplier);
-    setWinCount((count) => (count += 1));
-    setWinnerBet(position);
-    setWinnerType(PlayerType.USER);
     setCurrentPosition(position);
+    const timer = setTimeout(() => {
+      setBalance((balance: number) => (balance += bet[position] * multiplier));
+      setReturnedBalance(bet[position] * multiplier);
+      setWinCount((count) => (count += 1));
+      setWinnerBet(position);
+      setWinnerType(PlayerType.USER);
+    }, 3000);
+    timerRefs.current.push(timer);
   };
 
   const handleTie = (position: Position) => {
@@ -80,14 +89,14 @@ const Container = () => {
   };
 
   const handleGameOver = useCallback(() => {
-    timerRef.current = setTimeout(() => {
+    const timer = setTimeout(() => {
       if (balance < 500) setGameOver(true);
     }, 500);
-  }, [balance]);
+    timerRefs.current.push(timer);
+  }, [balance, setGameOver]);
 
   const selectedPosition = () =>
-    //@ts-ignore
-    Object.keys(bet).find((o: Position) => bet[o] > 0);
+    Object.keys(bet).find((o) => bet[o as keyof typeof Position] > 0);
 
   const onPlay = () => {
     const randomBet = handleRandomBet();
@@ -157,6 +166,7 @@ const Container = () => {
   };
 
   const isBetEmpty = Object.values(bet).reduce((a, b) => a + b) <= 0;
+  const isUserWon = winnerType === PlayerType.USER;
 
   return (
     <div className="container">
@@ -200,6 +210,7 @@ const Container = () => {
             <AnimatedTextContent
               onAnimationComplete={() => {
                 handleGameOver();
+                setIsClearButtonActive(true);
               }}
               customKey="winner-title"
               style={{
@@ -228,21 +239,21 @@ const Container = () => {
         )}
         <div className="container-buttons">
           <BetButton
-            active={winnerBet === Position.ROCK}
+            active={winnerBet === Position.ROCK && isUserWon}
             balance={bet.ROCK}
             disabled={balance === 0 || !!computerBet}
             type={Position.ROCK}
             onClick={() => handleBet(Position.ROCK)}
           />
           <BetButton
-            active={winnerBet === Position.PAPER}
+            active={winnerBet === Position.PAPER && isUserWon}
             balance={bet.PAPER}
             disabled={balance === 0 || !!computerBet}
             type={Position.PAPER}
             onClick={() => handleBet(Position.PAPER)}
           />
           <BetButton
-            active={winnerBet === Position.SCISSORS}
+            active={winnerBet === Position.SCISSORS && isUserWon}
             balance={bet.SCISSORS}
             disabled={balance === 0 || !!computerBet}
             type={Position.SCISSORS}
@@ -252,6 +263,7 @@ const Container = () => {
 
         {computerBet ? (
           <Button
+            disabled={!isClearButtonActive}
             onClick={() => {
               setBet(defaultBetState);
               setComputerBet(null);
