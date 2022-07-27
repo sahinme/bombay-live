@@ -270,6 +270,7 @@ const Container = () => {
               setShowWinner(false);
               setWinnerBet(null);
               setWinnerType(null);
+              setIsClearButtonActive(false);
             }}
           >
             CLEAR
